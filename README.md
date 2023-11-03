@@ -13,8 +13,9 @@
 
 ### B3: Chạy server với command `npm start`
 
-
-
+<br>
+<br>
+<br>
 
 ## Hướng dẫn thao tác với repo, code, push, tạo pull request:
 
@@ -35,6 +36,7 @@
 </p>
 
 ### B5: Chọn commit và tạo pull request
+
 <p align="center">
   <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/c0fe6bf9-20ad-4aff-9c6f-f6d65be6ed1d)" width="600" title="Select commit">
   <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/a572d533-8754-41c0-8726-eec93bb95a22)" width="600" title="Creat pull request">
