@@ -18,5 +18,8 @@
     - Sau đó dùng command `git checkout` + branchname để chuyển qua branch mới tạo
 ### B3: Sau khi code xong, commit và push như bình thường lên branch của mình
 ### B4: Lên repo trên web, chọn branch của mình
-      ![image](https://github.com/quyld17/ITSS-back-end/assets/75574584/c4da09f5-b979-4a46-89d7-f2bb8688e33e)
+      ![alt text](https://github.com/quyld17/ITSS-back-end/assets/75574584/c4da09f5-b979-4a46-89d7-f2bb8688e33e)
 ### B5: Chọn commit và tạo pull request
+      ![alt text](https://github.com/quyld17/ITSS-back-end/assets/75574584/c0fe6bf9-20ad-4aff-9c6f-f6d65be6ed1d)
+      ![alt text](https://github.com/quyld17/ITSS-back-end/assets/75574584/a572d533-8754-41c0-8726-eec93bb95a22)
+      ![alt text](https://github.com/quyld17/ITSS-back-end/assets/75574584/50f06422-2862-40f8-8cd4-dcc7a105b55c)
