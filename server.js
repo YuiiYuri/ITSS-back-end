@@ -1,11 +1,11 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const getTasks = require("./handlers/get-tasks");
+const express = require("express");
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const app = express();
+const port = 3000;
+
+app.use(getTasks);
 
 app.listen(port, () => {
-  console.log(`Test server on port ${port}`)
-})
+  console.log(`Server running on port ${port}`);
+});
