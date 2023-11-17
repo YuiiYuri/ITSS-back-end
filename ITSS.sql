@@ -24,7 +24,7 @@ CREATE TABLE `priority` (
   `priority_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `priority_name` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
-  `color` VARCHAR(255) NOT NULL
+  `color` VARCHAR(255)  NOT NULL
 );
 
 CREATE TABLE `label` (
@@ -35,7 +35,9 @@ CREATE TABLE `label` (
 
 CREATE TABLE `filter` (
   `filter_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `filter_name` VARCHAR(255) NOT NULL
+  `filter_name` VARCHAR(255) NOT NULL,
+  `query` VARCHAR(255) NOT NULL,
+  `color` VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE `comments` (
@@ -56,4 +58,3 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`
 ALTER TABLE `comments` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
