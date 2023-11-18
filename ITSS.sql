@@ -1,12 +1,12 @@
 CREATE TABLE `users` (
   `user_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `mail` varchar(255) NOT NULL,
-  `image` varchar(255),
-  `role` varchar(255) NOT NULL,
-  `auth_method` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL
+  `user_name` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `mail` VARCHAR(255) NOT NULL,
+  `image` VARCHAR(255),
+  `role` VARCHAR(255) NOT NULL,
+  `auth_method` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE `tasks` (
@@ -17,7 +17,7 @@ CREATE TABLE `tasks` (
   `priority_id` int NOT NULL,
   `label_id` INT NOT NULL,
   `user_id` int NOT NULL,
-  `created_at` timestamp NOT NULL
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE `priority` (
@@ -46,7 +46,7 @@ CREATE TABLE `comments` (
   `text` VARCHAR(255) NOT NULL,
   `task_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`priority_id`) REFERENCES `priority` (`priority_id`);
