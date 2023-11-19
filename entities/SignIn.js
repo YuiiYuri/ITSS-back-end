@@ -9,8 +9,7 @@ async function signIn(userName, password) {
       if (err) {
         reject(err);
       } else {
-        const count = results[0].count;
-        resolve(count > 0);
+        resolve(results[0].count > 0);
       }
     });
   });

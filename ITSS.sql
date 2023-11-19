@@ -11,12 +11,12 @@ CREATE TABLE `users` (
 
 CREATE TABLE `tasks` (
   `task_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `task_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `due_date` timestamp NOT NULL,
-  `priority_id` int NOT NULL,
+  `task_name` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  `due_date` TIMESTAMP NOT NULL,
+  `priority_id` INT NOT NULL,
   `label_id` INT NOT NULL,
-  `user_id` int NOT NULL,
+  `user_id` INT NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
