@@ -7,6 +7,7 @@ const express = require("express");
 const r = Router();
 
 r.put("/task", express.json(), async (req, res) => {
+  console.log(req.headers);
   const token = req.headers.authorization;
   const credentials = req.body;
   if (!token) {
@@ -17,6 +18,7 @@ r.put("/task", express.json(), async (req, res) => {
     try {
       if (
         credentials.taskName === "" ||
+        credentials.description === "" ||
         credentials.dueDate === "" ||
         credentials.priorityId === "" ||
         credentials.labelId === ""

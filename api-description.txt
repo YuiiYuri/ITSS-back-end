@@ -1,0 +1,75 @@
+******Authentication******
+
+1. Sign up
+Path: /sign-up
+Method: POST
+Request:
+    Body: 
+        {
+            userName:   string  (required),
+            password:   string  (required),
+            mail:       string  (required),
+            role:       string  (required),
+            authMethod: string  (required)
+        }
+    // Hien tai thi authMethod de "website registered" vi chua lam dang ky bang google voi facebook
+Response:
+    {
+        "User registered successfully"
+    }    
+
+2. Sign in
+Path: /sign-in
+Method: POST
+Request:
+    Body: 
+        {
+            userName:   string  (required),
+            password:   string  (required)
+        }
+Response:
+    {
+        jwt: string (token tra ve phia client)
+    }    
+
+
+******Tasks****** 
+
+3. Create
+Path: /task
+Method: PUT
+Request:
+    Headers:
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body: 
+        {
+            taskName:       string  (required),
+            description:    string  (required),
+            dueDate:        string  (required, format "YYYY-MM-DD"),
+            priorityId:     int     (required),
+            labelId:        int     (required)
+        }
+Response:
+    {
+        "Created task successfully"
+    }    
+
+4. Get today tasks
+Path: /today-tasks
+Method: GET
+Request: khong can
+Response:
+    [
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       "2023-11-18T17:00:00.000Z",
+            priority_id:    int,
+            label_id:       int,
+            user_id:        int,
+            created_at:     "2023-11-19T10:47:33.000Z"
+        }
+    ]
