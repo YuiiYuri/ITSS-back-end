@@ -7,14 +7,16 @@ const express = require("express");
 const r = Router();
 
 r.put("/task", express.json(), async (req, res) => {
-  console.log(req.headers);
   const token = req.headers.authorization;
   const credentials = req.body;
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
   const userId = await tokenVerification(token, res);
-  if (credentials && userId) {
+  if (!userId) {
+    return res.status(400).json("Unauthorized");
+  }
+  if (credentials) {
     try {
       if (
         credentials.taskName === "" ||
