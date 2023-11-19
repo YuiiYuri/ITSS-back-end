@@ -2,14 +2,12 @@ const db = require("../services/SetUpMySQL");
 
 const moment = require("moment-timezone");
 
-async function getTodayTasks() {
+async function getTodayTasks(userId) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
-
-  // Use the obtained date in the query
-  const query = `SELECT * FROM tasks WHERE DATE(due_date) = '${currentDateInUTC}';`;
+  const query = `SELECT * FROM tasks WHERE DATE(due_date) = '${currentDateInUTC}' AND user_id = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, (err, results) => {
+    db.query(query, [userId], (err, results) => {
       if (err) {
         reject(err);
       } else {
