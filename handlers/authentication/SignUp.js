@@ -9,28 +9,34 @@ r.post("/sign-up", express.json(), async (req, res) => {
   if (credentials) {
     try {
       if (
-        credentials.userName === "" ||
         credentials.password === "" ||
         credentials.mail === "" ||
-        credentials.role === "" ||
         credentials.authMethod === ""
       ) {
         return res.status(400).json("Invalid input");
       }
 
       const userAlreadyExisted = await isUserAlreadyRegistered(
-        credentials.userName,
         credentials.mail
       );
       if (userAlreadyExisted) {
         return res.status(400).json("User already registered");
       }
 
+      const role = "user";
+      let userName = "";
+      for (let i = 0; i < credentials.mail.length; i++) {
+        if (credentials.mail[i] === "@") {
+          break;
+        }
+        userName += credentials.mail[i];
+      }
+
       const userSignUpResult = await signUp(
-        credentials.userName,
+        userName,
         credentials.password,
         credentials.mail,
-        credentials.role,
+        role,
         credentials.authMethod
       );
       if (userSignUpResult) {
