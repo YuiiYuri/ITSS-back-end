@@ -20,12 +20,11 @@ async function signUp(userName, password, mail, role, authMethod) {
   });
 }
 
-async function isUserAlreadyRegistered(username, email) {
-  const query =
-    "SELECT COUNT(*) AS count FROM users WHERE user_name = ? OR mail = ?";
+async function isUserAlreadyRegistered(email) {
+  const query = "SELECT COUNT(*) AS count FROM users WHERE mail = ?";
 
   return new Promise((resolve, reject) => {
-    db.query(query, [username, email], (err, results) => {
+    db.query(query, [email], (err, results) => {
       if (err) {
         reject(err);
       } else {

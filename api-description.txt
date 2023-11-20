@@ -6,10 +6,8 @@ Method: POST
 Request:
     Body: 
         {
-            userName:   string  (required),
-            password:   string  (required),
             mail:       string  (required),
-            role:       string  (required),
+            password:   string  (required),
             authMethod: string  (required)
         }
     // Hien tai thi authMethod de "website registered" vi chua lam dang ky bang google voi facebook
@@ -24,14 +22,14 @@ Method: POST
 Request:
     Body: 
         {
-            userName:   string  (required),
+            mail:   string  (required),
             password:   string  (required)
         }
 Response:
     {
-        jwt: string (token tra ve phia client)
+        jwt: string 
     }    
-
+    // Trong jwt token co json chua userName va avatar, decode ra de lay
 
 ******Tasks****** 
 
