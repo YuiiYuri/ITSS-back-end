@@ -10,8 +10,7 @@ function getUserId(userName) {
         if (results.length === 0) {
           resolve(null);
         } else {
-          const userId = results[0].user_id;
-          resolve(userId);
+          resolve(results[0].user_id);
         }
       }
     });
@@ -35,7 +34,25 @@ async function getUserNameAndImage(mail) {
   });
 }
 
+async function verifyAdmin(userId) {
+  const query = "SELECT role FROM users WHERE user_id = ?;";
+  return new Promise((resolve, reject) => {
+    db.query(query, [userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        if (results.length === 0) {
+          resolve(null);
+        } else {
+          resolve(results[0].role);
+        }
+      }
+    });
+  });
+}
+
 module.exports = {
   getUserId,
   getUserNameAndImage,
+  verifyAdmin,
 };

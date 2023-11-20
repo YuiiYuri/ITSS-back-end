@@ -1,4 +1,4 @@
-const GetTodayTasks = require("./handlers/tasks/Get");
+const GetTasks = require("./handlers/tasks/Get");
 const CreateTask = require("./handlers/tasks/Create");
 const SignUp = require("./handlers/authentication/SignUp");
 const SignIn = require("./handlers/authentication/SignIn");
@@ -12,7 +12,7 @@ try {
   app.use(SignUp);
   app.use(SignIn);
 
-  app.use(GetTodayTasks);
+  app.use(GetTasks);
   app.use(CreateTask);
 } catch (err) {
   console.log("error", err);
