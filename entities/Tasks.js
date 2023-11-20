@@ -4,10 +4,61 @@ const moment = require("moment-timezone");
 
 async function getTodayTasks(userId) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
-  const query = `SELECT * FROM tasks WHERE DATE(due_date) = '${currentDateInUTC}' AND user_id = ?;`;
+  const query = ` SELECT *
+                  FROM tasks 
+                  WHERE DATE(due_date) = '${currentDateInUTC}' AND 
+                        user_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+async function getUpcomingTasks(userId) {
+  const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
+  const query = ` SELECT * 
+                  FROM tasks 
+                  WHERE DATE(due_date) >= '${currentDateInUTC}' AND 
+                        user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+async function getAllTasks(userId) {
+  const query = `SELECT * FROM tasks WHERE user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+async function getAllTasksAdmin() {
+  const query = ` SELECT tasks.*, users.user_name
+                  FROM tasks
+                  JOIN users ON tasks.user_id = users.user_id;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -45,5 +96,8 @@ async function createTask(task, userId) {
 
 module.exports = {
   getTodayTasks,
+  getUpcomingTasks,
+  getAllTasks,
+  getAllTasksAdmin,
   createTask,
 };

@@ -31,9 +31,10 @@ Response:
     }    
     // Trong jwt token co json chua userName va avatar, decode ra de lay
 
+
 ******Tasks****** 
 
-3. Create
+3. Create task
 Path: /task
 Method: PUT
 Request:
@@ -54,10 +55,14 @@ Response:
         "Created task successfully"
     }    
 
-4. Get today tasks
+4. Get today tasks (USER)
 Path: /today-tasks
 Method: GET
-Request: khong can
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
 Response:
     [
         {
@@ -69,5 +74,94 @@ Response:
             label_id:       int,
             user_id:        int,
             created_at:     "2023-11-19T10:47:33.000Z"
+        }
+    ]
+
+5. Get upcoming tasks (USER)
+Path: /upcoming-tasks
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       "2023-11-18T17:00:00.000Z",
+            priority_id:    int,
+            label_id:       int,
+            user_id:        int,
+            created_at:     "2023-11-19T10:47:33.000Z"
+        }
+    ]
+
+6. Get all tasks (USER)
+Path: /all-tasks
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       "2023-11-18T17:00:00.000Z",
+            priority_id:    int,
+            label_id:       int,
+            user_id:        int,
+            created_at:     "2023-11-19T10:47:33.000Z"
+        }
+    ]
+
+7. Get all tasks (USER)
+Path: /all-tasks
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       "2023-11-18T17:00:00.000Z",
+            priority_id:    int,
+            label_id:       int,
+            user_id:        int,
+            created_at:     "2023-11-19T10:47:33.000Z"
+        }
+    ]
+
+8. Get all tasks (ADMIN)
+Path: /admin/all-tasks
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       "2023-11-18T17:00:00.000Z",
+            priority_id:    int,
+            label_id:       int,
+            user_id:        int,
+            created_at:     "2023-11-19T10:47:33.000Z"
+            user_name:      string
         }
     ]
