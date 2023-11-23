@@ -15,7 +15,6 @@ r.get("/today-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-
   const userId = await tokenVerification(token, res);
   if (!userId) {
     return res.status(401).json("Failed to authorize user");
@@ -39,7 +38,6 @@ r.get("/upcoming-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-
   const userId = await tokenVerification(token, res);
   if (!userId) {
     return res.status(401).json("Failed to authorize user");
@@ -63,7 +61,6 @@ r.get("/all-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-
   const userId = await tokenVerification(token, res);
   if (!userId) {
     return res.status(401).json("Failed to authorize user");
@@ -87,7 +84,6 @@ r.get("/admin/all-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-
   const userId = await tokenVerification(token, res);
   if (!userId) {
     return res.status(401).json("Failed to authorize user");
