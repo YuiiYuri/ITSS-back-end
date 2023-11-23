@@ -94,10 +94,25 @@ async function createTask(task, userId) {
   });
 }
 
+async function deleteTask(taskId, userId) {
+  const query = "DELETE FROM tasks WHERE task_id = ? AND user_id = ?";
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [taskId, userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results.affectedRows > 0);
+      }
+    });
+  });
+}
+
 module.exports = {
   getTodayTasks,
   getUpcomingTasks,
   getAllTasks,
   getAllTasksAdmin,
   createTask,
+  deleteTask,
 };
