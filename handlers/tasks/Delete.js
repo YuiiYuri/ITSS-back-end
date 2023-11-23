@@ -13,24 +13,24 @@ r.delete("/task", express.json(), async (req, res) => {
   }
   const userId = await tokenVerification(token, res);
   if (!userId) {
-    return res.status(400).json("Unauthorized");
+    return res.status(401).json("Failed to authorize user");
   }
 
   const { taskId } = req.body;
-  if (!taskId) {
-    return res.status(400).json("Bad request");
-  }
-
-  try {
-    const deleteTaskResult = await deleteTask(taskId, userId);
-    if (deleteTaskResult) {
-      res.status(200).json("Deleted task successfully");
-    } else {
-      return res.status(500).json("Failed to delete task");
+  if (task) {
+    try {
+      const deleteTaskResult = await deleteTask(taskId, userId);
+      if (deleteTaskResult) {
+        res.status(200).json("Deleted task successfully");
+      } else {
+        return res.status(500).json("Failed to delete task");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      res.status(500).json("Internal Server Error");
     }
-  } catch (err) {
-    console.error("Error:", err);
-    res.status(500).json("Internal Server Error");
+  } else {
+    return res.status(400).json("Bad request");
   }
 });
 

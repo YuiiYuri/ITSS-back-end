@@ -8,35 +8,38 @@ const r = Router();
 
 r.put("/task", express.json(), async (req, res) => {
   const token = req.headers.authorization;
-  const credentials = req.body;
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
   const userId = await tokenVerification(token, res);
   if (!userId) {
-    return res.status(400).json("Unauthorized");
+    return res.status(401).json("Failed to authorize user");
   }
-  if (credentials) {
+
+  const task = req.body;
+  if (task) {
     try {
       if (
-        credentials.taskName === "" ||
-        credentials.description === "" ||
-        credentials.dueDate === "" ||
-        credentials.priorityId === "" ||
-        credentials.labelId === ""
+        task.taskName === "" ||
+        task.description === "" ||
+        task.dueDate === "" ||
+        task.priorityId === "" ||
+        task.labelId === ""
       ) {
         return res.status(400).json("Invalid input");
       }
-      const createTaskResult = createTask(credentials, userId);
+      const createTaskResult = createTask(task, userId);
       if (createTaskResult) {
         res.status(200).json("Created task successfully");
       } else {
-        return res.status(500).json("Failed to create task");
+        res.status(500).json("Failed to create task");
       }
     } catch (err) {
       console.error("Error:", err);
       res.status(500).json("Internal Server Error");
     }
+  } else {
+    return res.status(400).json("Bad request");
   }
 });
 
