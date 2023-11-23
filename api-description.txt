@@ -34,7 +34,7 @@ Response:
 
 ******Tasks****** 
 
-3. Create task
+3. Create task (USER)
 Path: /task
 Method: PUT
 Request:
@@ -165,3 +165,20 @@ Response:
             user_name:      string
         }
     ]
+
+9. Delete task (USER)
+Path: /task
+Method: DELETE
+Request:
+    Headers:
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body: 
+        {
+            taskId: int
+        }
+Response:
+    {
+        "Deleted task successfully"
+    }  
