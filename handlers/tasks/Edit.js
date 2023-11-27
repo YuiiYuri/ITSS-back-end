@@ -1,4 +1,5 @@
 const { tokenVerification } = require("../../middlewares/JWT");
+const { editTask } = require("../../entities/Tasks");
 
 const Router = require("express");
 const express = require("express");
@@ -19,16 +20,21 @@ r.post("/task", express.json(), async (req, res) => {
   if (task) {
     try {
       if (
-        task.taskId === "" ||
+        task.taskId === null ||
         task.taskName === "" ||
         task.description === "" ||
         task.dueDate === "" ||
-        task.priorityId === "" ||
-        task.labelId === ""
+        task.priorityId === null ||
+        task.labelId === null
       ) {
         return res.status(400).json("Invalid input");
       }
-      const editTaskResult = editTask(task);
+      const editTaskResult = await editTask(task, userId);
+      if (editTaskResult) {
+        res.status(200).json("Updated task successfully");
+      } else {
+        return res.status(500).json("Failed to update task");
+      }
     } catch (err) {
       console.error("Error:", err);
       res.status(500).json("Internal Server Error");
