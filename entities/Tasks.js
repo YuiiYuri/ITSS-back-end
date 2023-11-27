@@ -6,8 +6,9 @@ async function getTodayTasks(userId) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
   const query = ` SELECT *
                   FROM tasks 
-                  WHERE DATE(due_date) = '${currentDateInUTC}' AND 
-                        user_id = ?;`;
+                  WHERE 
+                    DATE(due_date) = '${currentDateInUTC}' AND 
+                    user_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [userId], (err, results) => {
@@ -24,8 +25,9 @@ async function getUpcomingTasks(userId) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
   const query = ` SELECT * 
                   FROM tasks 
-                  WHERE DATE(due_date) >= '${currentDateInUTC}' AND 
-                        user_id = ?;`;
+                  WHERE 
+                    DATE(due_date) >= '${currentDateInUTC}' AND 
+                    user_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [userId], (err, results) => {
@@ -55,7 +57,8 @@ async function getAllTasks(userId) {
 async function getAllTasksAdmin() {
   const query = ` SELECT tasks.*, users.user_name
                   FROM tasks
-                  JOIN users ON tasks.user_id = users.user_id;`;
+                  JOIN users 
+                  ON tasks.user_id = users.user_id;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, (err, results) => {
@@ -69,8 +72,14 @@ async function getAllTasksAdmin() {
 }
 
 async function createTask(task, userId) {
-  const query =
-    "INSERT INTO tasks (task_name, description, due_date, priority_id, label_id, user_id) VALUES (?, ?, ?, ?, ?, ?);";
+  const query = ` INSERT INTO tasks ( 
+                    task_name, 
+                    description, 
+                    due_date, 
+                    priority_id, 
+                    label_id, 
+                    user_id) 
+                  VALUES (?, ?, ?, ?, ?, ?);`;
 
   return new Promise((resolve, reject) => {
     db.query(
@@ -94,8 +103,46 @@ async function createTask(task, userId) {
   });
 }
 
+async function editTask(task, userId) {
+  const query = ` UPDATE tasks
+                  SET 
+                    task_name = ?,
+                    description = ?,
+                    due_date = ?,
+                    priority_id = ?,
+                    label_id = ?
+                  WHERE 
+                    user_id = ? AND
+                    task_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      query,
+      [
+        task.taskName,
+        task.description,
+        task.dueDate,
+        task.priorityId,
+        task.labelId,
+        userId,
+        task.taskId,
+      ],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results.affectedRows > 0);
+        }
+      }
+    );
+  });
+}
+
 async function deleteTask(taskId, userId) {
-  const query = "DELETE FROM tasks WHERE task_id = ? AND user_id = ?";
+  const query = ` DELETE FROM tasks 
+                  WHERE 
+                    task_id = ? AND 
+                    user_id = ?`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [taskId, userId], (err, results) => {
@@ -115,4 +162,5 @@ module.exports = {
   getAllTasksAdmin,
   createTask,
   deleteTask,
+  editTask,
 };

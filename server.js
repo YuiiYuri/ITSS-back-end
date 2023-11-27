@@ -3,6 +3,7 @@ const SignIn = require("./handlers/authentication/SignIn");
 const GetTasks = require("./handlers/tasks/Get");
 const CreateTask = require("./handlers/tasks/Create");
 const DeleteTask = require("./handlers/tasks/Delete");
+const EditTask = require("./handlers/tasks/Edit");
 
 const express = require("express");
 
@@ -16,6 +17,7 @@ try {
   app.use(GetTasks);
   app.use(CreateTask);
   app.use(DeleteTask);
+  app.use(EditTask);
 } catch (err) {
   console.log("error", err);
 }

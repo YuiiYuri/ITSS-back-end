@@ -36,7 +36,6 @@ CREATE TABLE `label` (
 CREATE TABLE `filter` (
   `filter_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `filter_name` VARCHAR(255) NOT NULL,
-  `query` VARCHAR(255) NOT NULL,
   `color` VARCHAR(255) NOT NULL
 );
 
