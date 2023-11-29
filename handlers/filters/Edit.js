@@ -11,8 +11,8 @@ r.post("/filter", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
@@ -20,13 +20,13 @@ r.post("/filter", express.json(), async (req, res) => {
   if (filter) {
     try {
       if (
-        filter.filterId === null ||
-        filter.filterName === "" ||
+        filter.filter_id === null ||
+        filter.filter_name === "" ||
         filter.color === ""
       ) {
         return res.status(400).json("Invalid input");
       }
-      const editFilterResult = await editFilter(filter, userId);
+      const editFilterResult = await editFilter(filter, user_id);
       if (editFilterResult) {
         res.status(200).json("Updated filter successfully");
       } else {

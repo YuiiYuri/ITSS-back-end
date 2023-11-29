@@ -71,7 +71,7 @@ async function getAllTasksAdmin() {
   });
 }
 
-async function createTask(task, userId) {
+async function createTask(task, user_id) {
   const query = ` INSERT INTO tasks ( 
                     task_name, 
                     description, 
@@ -85,12 +85,12 @@ async function createTask(task, userId) {
     db.query(
       query,
       [
-        task.taskName,
+        task.task_name,
         task.description,
-        task.dueDate,
-        task.priorityId,
-        task.labelId,
-        userId,
+        task.due_date,
+        task.priority_id,
+        task.label_id,
+        user_id,
       ],
       (err, results) => {
         if (err) {
@@ -103,7 +103,7 @@ async function createTask(task, userId) {
   });
 }
 
-async function editTask(task, userId) {
+async function editTask(task, user_id) {
   const query = ` UPDATE tasks
                   SET 
                     task_name = ?,
@@ -119,13 +119,13 @@ async function editTask(task, userId) {
     db.query(
       query,
       [
-        task.taskName,
+        task.task_name,
         task.description,
-        task.dueDate,
-        task.priorityId,
-        task.labelId,
-        userId,
-        task.taskId,
+        task.due_date,
+        task.priority_id,
+        task.label_id,
+        user_id,
+        task.task_id,
       ],
       (err, results) => {
         if (err) {
@@ -138,14 +138,14 @@ async function editTask(task, userId) {
   });
 }
 
-async function deleteTask(taskId, userId) {
+async function deleteTask(task_id, user_id) {
   const query = ` DELETE FROM tasks 
                   WHERE 
                     task_id = ? AND 
                     user_id = ?`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, [taskId, userId], (err, results) => {
+    db.query(query, [task_id, user_id], (err, results) => {
       if (err) {
         reject(err);
       } else {

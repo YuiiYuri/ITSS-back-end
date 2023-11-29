@@ -11,15 +11,15 @@ r.delete("/filter", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
-  const { filterId } = req.body;
-  if (filterId) {
+  const { filter_id } = req.body;
+  if (filter_id) {
     try {
-      const deleteFilterResult = await deleteFilter(filterId, userId);
+      const deleteFilterResult = await deleteFilter(filter_id, user_id);
       if (deleteFilterResult) {
         res.status(200).json("Deleted filter successfully");
       } else {

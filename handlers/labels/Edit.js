@@ -11,8 +11,8 @@ r.post("/label", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
@@ -20,13 +20,13 @@ r.post("/label", express.json(), async (req, res) => {
   if (label) {
     try {
       if (
-        label.labelId === null ||
-        label.labelName === "" ||
+        label.label_id === null ||
+        label.label_name === "" ||
         label.color === ""
       ) {
         return res.status(400).json("Invalid input");
       }
-      const editLabelResult = await editLabel(label, userId);
+      const editLabelResult = await editLabel(label, user_id);
       if (editLabelResult) {
         res.status(200).json("Updated label successfully");
       } else {

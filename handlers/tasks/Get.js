@@ -15,13 +15,13 @@ r.get("/today-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
   try {
-    const tasks = await getTodayTasks(userId);
+    const tasks = await getTodayTasks(user_id);
     if (tasks) {
       res.status(200).json(tasks);
     } else {
@@ -38,13 +38,13 @@ r.get("/upcoming-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
   try {
-    const tasks = await getUpcomingTasks(userId);
+    const tasks = await getUpcomingTasks(user_id);
     if (tasks) {
       res.status(200).json(tasks);
     } else {
@@ -61,13 +61,13 @@ r.get("/all-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
   try {
-    const tasks = await getAllTasks(userId);
+    const tasks = await getAllTasks(user_id);
     if (tasks) {
       res.status(200).json(tasks);
     } else {
@@ -84,12 +84,12 @@ r.get("/admin/all-tasks", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
-  const adminVerifyResult = await verifyAdmin(userId);
+  const adminVerifyResult = await verifyAdmin(user_id);
   if (adminVerifyResult !== "admin") {
     return res.status(403).json("No permission");
   }

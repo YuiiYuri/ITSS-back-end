@@ -6,9 +6,9 @@ Method: POST
 Request:
     Body: 
         {
-            mail:       string  (required),
-            password:   string  (required),
-            authMethod: string  (required)
+            mail:           string  (required),
+            password:       string  (required),
+            auth_method:    string  (required)
         }
     // Hien tai thi authMethod de "website registered" vi chua lam dang ky bang google voi facebook
 Response:
@@ -22,14 +22,14 @@ Method: POST
 Request:
     Body: 
         {
-            mail:   string  (required),
+            mail:       string  (required),
             password:   string  (required)
         }
 Response:
     {
         jwt: string 
     }    
-    // Trong jwt token co json chua userName va avatar, decode ra de lay
+    // Trong jwt token co json chua user_name va avatar, decode ra de lay
 
 
 ******Tasks****** 
@@ -44,11 +44,11 @@ Request:
         }
     Body: 
         {
-            taskName:       string  (required),
+            task_name:      string  (required),
             description:    string  (required),
-            dueDate:        string  (required, format "YYYY-MM-DD"),
-            priorityId:     int     (required),
-            labelId:        int     (required)
+            due_date:       string  (required, format "YYYY-MM-DD"),
+            priority_id:    int     (required),
+            label_id:       int     (required)
         }
 Response:
     {
@@ -121,29 +121,7 @@ Response:
         }
     ]
 
-7. Get all tasks (USER)
-Path: /all-tasks
-Method: GET
-Request: 
-    Headers: 
-        {
-            authorization: token (token nhan khi dang nhap)
-        }
-Response:
-    [
-        {
-            task_id:        int,
-            task_name:      string,
-            description:    string,
-            due_date:       "2023-11-18T17:00:00.000Z",
-            priority_id:    int,
-            label_id:       int,
-            user_id:        int,
-            created_at:     "2023-11-19T10:47:33.000Z"
-        }
-    ]
-
-8. Get all tasks (ADMIN)
+7. Get all tasks (ADMIN)
 Path: /admin/all-tasks
 Method: GET
 Request: 
@@ -166,6 +144,29 @@ Response:
         }
     ]
 
+8. Edit task (USER)
+Path: /task
+Method: POST
+Request:
+    Headers:
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            task_id:        int,
+            task_name:      string,
+            description:    string,
+            due_date:       string,
+            priority_id:    int,
+            label_id:       int
+        }
+Response:
+    {
+        "Updated task successfully"    
+    }
+
+
 9. Delete task (USER)
 Path: /task
 Method: DELETE
@@ -176,9 +177,159 @@ Request:
         }
     Body: 
         {
-            taskId: int
+            task_id: int
         }
 Response:
     {
         "Deleted task successfully"
     }  
+
+
+******Filters****** 
+
+10. Get filters (USER)
+Path: /filters
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            filter_id:      int,
+            filter_name:    string,
+            color:          string,
+            user_id:        int
+        }
+    ]
+
+11. Create filter (USER)
+Path: /filters
+Method: PUT
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            filter_name:    string,
+            color:          string
+        }
+Response:
+    {
+        "Created filter successfully"
+    }
+
+12. Edit filter (USER)
+Path: /filter
+Method: POST
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            filter_id:      int,
+            filter_name:    string,
+            color:          string
+        }
+Response:
+    {
+        "Updated filter successfully"
+    }
+
+13. Delete filter (USER)
+Path: /filter
+Method: DELETE
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            filter_id:  int
+        }
+Response:
+    {
+        "Deleted filter successfully"
+    }
+
+
+******Labels******
+
+14. Get labels (USER)
+Path: /labels
+Method: GET
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+Response:
+    [
+        {
+            label_id:   int,
+            label_name: string,
+            color:      string,
+            user_id:    int
+        }
+    ]
+
+15. Create label (USER)
+Path: /label
+Method: PUT
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            label_name: string,
+            color:      string
+        }
+Response:
+    {
+        "Created label successfully"
+    }
+
+16. Edit label (USER)
+Path: /label
+Method: POST
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            label_id:   int,
+            label_name: string,
+            color:      string
+        }
+Response:
+    {
+        "Updated label successfully"
+    }
+
+17. Delete label (USER)
+Path: /label
+Method: DELETE
+Request: 
+    Headers: 
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            label_id:  int
+        }
+Response:
+    {
+        "Deleted label successfully"
+    }
