@@ -11,15 +11,15 @@ r.delete("/task", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
-  const { taskId } = req.body;
-  if (task) {
+  const { task_id } = req.body;
+  if (task_id) {
     try {
-      const deleteTaskResult = await deleteTask(taskId, userId);
+      const deleteTaskResult = await deleteTask(task_id, user_id);
       if (deleteTaskResult) {
         res.status(200).json("Deleted task successfully");
       } else {

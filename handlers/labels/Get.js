@@ -9,13 +9,13 @@ r.get("/labels", async (req, res) => {
   if (!token) {
     return res.status(400).json("Token not found");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
   try {
-    const labels = await getLabels(userId);
+    const labels = await getLabels(user_id);
     if (labels) {
       res.status(200).json(labels);
     } else {

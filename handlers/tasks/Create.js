@@ -11,8 +11,8 @@ r.put("/task", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
@@ -20,15 +20,15 @@ r.put("/task", express.json(), async (req, res) => {
   if (task) {
     try {
       if (
-        task.taskName === "" ||
+        task.task_name === "" ||
         task.description === "" ||
-        task.dueDate === "" ||
-        task.priorityId === "" ||
-        task.labelId === ""
+        task.due_date === "" ||
+        task.priority_id === "" ||
+        task.label_id === ""
       ) {
         return res.status(400).json("Invalid input");
       }
-      const createTaskResult = createTask(task, userId);
+      const createTaskResult = createTask(task, user_id);
       if (createTaskResult) {
         res.status(200).json("Created task successfully");
       } else {

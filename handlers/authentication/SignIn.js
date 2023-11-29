@@ -8,18 +8,18 @@ const jwt = require("jsonwebtoken");
 const r = Router();
 
 r.post("/sign-in", express.json(), async (req, res) => {
-  const credentials = req.body;
-  if (credentials) {
+  const account = req.body;
+  if (account) {
     try {
-      if (credentials.mail === "" || credentials.password === "") {
+      if (account.mail === "" || account.password === "") {
         return res.status(400).json("Invalid input");
       }
 
-      const signInResult = await signIn(credentials.mail, credentials.password);
+      const signInResult = await signIn(account);
       if (signInResult) {
-        const userData = await getUserNameAndImage(credentials.mail);
+        const user_data = await getUserNameAndImage(account.mail);
         const token = jwt.sign(
-          { userName: userData.user_name, avatar: userData.image },
+          { user_name: user_data.user_name, avatar: user_data.image },
           secretKey,
           {
             expiresIn: "24h",

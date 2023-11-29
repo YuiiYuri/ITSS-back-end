@@ -1,9 +1,9 @@
 const db = require("../services/SetUpMySQL");
 
-function getUserId(userName) {
+function getUserId(user_name) {
   const query = "SELECT user_id FROM users WHERE user_name = ?;";
   return new Promise((resolve, reject) => {
-    db.query(query, [userName], (err, results) => {
+    db.query(query, [user_name], (err, results) => {
       if (err) {
         reject(err);
       } else {

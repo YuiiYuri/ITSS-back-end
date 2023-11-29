@@ -11,8 +11,8 @@ r.post("/task", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
@@ -20,16 +20,16 @@ r.post("/task", express.json(), async (req, res) => {
   if (task) {
     try {
       if (
-        task.taskId === null ||
-        task.taskName === "" ||
+        task.task_id === null ||
+        task.task_name === "" ||
         task.description === "" ||
-        task.dueDate === "" ||
-        task.priorityId === null ||
-        task.labelId === null
+        task.due_date === "" ||
+        task.priority_id === null ||
+        task.label_id === null
       ) {
         return res.status(400).json("Invalid input");
       }
-      const editTaskResult = await editTask(task, userId);
+      const editTaskResult = await editTask(task, user_id);
       if (editTaskResult) {
         res.status(200).json("Updated task successfully");
       } else {

@@ -5,39 +5,37 @@ const express = require("express");
 const r = Router();
 
 r.post("/sign-up", express.json(), async (req, res) => {
-  const credentials = req.body;
-  if (credentials) {
+  const account = req.body;
+  if (account) {
     try {
       if (
-        credentials.password === "" ||
-        credentials.mail === "" ||
-        credentials.authMethod === ""
+        account.password === "" ||
+        account.mail === "" ||
+        account.auth_method === ""
       ) {
         return res.status(400).json("Invalid input");
       }
 
-      const userAlreadyExisted = await isUserAlreadyRegistered(
-        credentials.mail
-      );
+      const userAlreadyExisted = await isUserAlreadyRegistered(account.mail);
       if (userAlreadyExisted) {
         return res.status(400).json("User already registered");
       }
 
       const role = "user";
-      let userName = "";
-      for (let i = 0; i < credentials.mail.length; i++) {
-        if (credentials.mail[i] === "@") {
+      let user_name = "";
+      for (let i = 0; i < account.mail.length; i++) {
+        if (account.mail[i] === "@") {
           break;
         }
-        userName += credentials.mail[i];
+        user_name += account.mail[i];
       }
 
       const userSignUpResult = await signUp(
-        userName,
-        credentials.password,
-        credentials.mail,
+        user_name,
+        account.password,
+        account.mail,
         role,
-        credentials.authMethod
+        account.auth_method
       );
       if (userSignUpResult) {
         res.status(200).json("User registered successfully");

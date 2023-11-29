@@ -11,18 +11,18 @@ r.put("/filter", express.json(), async (req, res) => {
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
-  const userId = await tokenVerification(token, res);
-  if (!userId) {
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
     return res.status(401).json("Failed to authorize user");
   }
 
   const filter = req.body;
   if (filter) {
     try {
-      if (filter.filterName === "" || filter.color === "") {
+      if (filter.filter_name === "" || filter.color === "") {
         return res.status(400).json("Invalid input");
       }
-      const createFilterResult = createFilter(filter, userId);
+      const createFilterResult = createFilter(filter, user_id);
       if (createFilterResult) {
         res.status(200).json("Created filter successfully");
       } else {

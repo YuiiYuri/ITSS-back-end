@@ -10,12 +10,12 @@ async function tokenVerification(token, res) {
   const decodedToken = jwt.verify(token, secretKey);
 
   try {
-    const userId = await getUserId(decodedToken.userName);
+    const user_id = await getUserId(decodedToken.user_name);
 
-    if (!userId) {
+    if (!user_id) {
       return res.status(401).json("User not found");
     }
-    return userId;
+    return user_id;
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json("Internal Server Error");
