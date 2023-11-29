@@ -34,7 +34,50 @@ async function getLabels(userId) {
   });
 }
 
+async function editLabel(label, userId) {
+  const query = ` UPDATE label
+                  SET 
+                    label_name = ?,
+                    color = ?
+                  WHERE 
+                    user_id = ? AND
+                    label_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      query,
+      [label.labelName, label.color, userId, label.labelId],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+}
+
+async function deleteLabel(labelId, userId) {
+  const query = ` DELETE FROM label
+                  WHERE 
+                    label_id = ? AND 
+                    user_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [labelId, userId], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results.affectedRows > 0);
+      }
+    });
+  });
+}
+
 module.exports = {
   createLabel,
   getLabels,
+  editLabel,
+  deleteLabel,
 };
