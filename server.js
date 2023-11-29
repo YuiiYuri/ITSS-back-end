@@ -8,9 +8,13 @@ const EditTask = require("./handlers/tasks/Edit");
 
 const GetFilters = require("./handlers/filters/Get");
 const CreateFilter = require("./handlers/filters/Create");
+const EditFilter = require("./handlers/filters/Edit");
+const DeleteFilter = require("./handlers/filters/Delete");
 
 const GetLabels = require("./handlers/labels/Get");
 const CreateLabel = require("./handlers/labels/Create");
+const EditLabel = require("./handlers/labels/Edit");
+const DeleteLabel = require("./handlers/labels/Delete");
 
 const express = require("express");
 
@@ -28,9 +32,13 @@ try {
 
   app.use(GetFilters);
   app.use(CreateFilter);
+  app.use(EditFilter);
+  app.use(DeleteFilter);
 
   app.use(GetLabels);
   app.use(CreateLabel);
+  app.use(EditLabel);
+  app.use(DeleteLabel);
 } catch (err) {
   console.log("error", err);
 }
