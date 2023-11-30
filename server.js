@@ -21,6 +21,7 @@ const cors = require("cors");
 
 const app = express();
 const port = 3000;
+app.use(cors());
 
 try {
   app.use(SignUp);
@@ -40,8 +41,6 @@ try {
   app.use(CreateLabel);
   app.use(EditLabel);
   app.use(DeleteLabel);
-
-  app.use(cors());
 } catch (err) {
   console.log("error", err);
 }
