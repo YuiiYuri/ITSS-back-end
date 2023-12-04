@@ -79,9 +79,25 @@ async function deleteLabel(label_id, user_id) {
   });
 }
 
+async function getAllLabelsAdmin() {
+  const query = ` SELECT *
+                  FROM label;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
 module.exports = {
   createLabel,
   getLabels,
   editLabel,
   deleteLabel,
+  getAllLabelsAdmin,
 };
