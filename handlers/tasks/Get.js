@@ -3,11 +3,14 @@ const {
   getUpcomingTasks,
   getAllTasks,
   getAllTasksAdmin,
+  searchTasks,
+  getTaskDetails,
 } = require("../../entities/Tasks");
-const { verifyAdmin } = require("../../entities/Users");
+const { verifyAdmin, getUserDetails } = require("../../entities/Users");
 const { tokenVerification } = require("../../middlewares/JWT");
 
 const Router = require("express");
+const express = require("express");
 const r = Router();
 
 r.get("/today-tasks", async (req, res) => {
@@ -104,6 +107,83 @@ r.get("/admin/all-tasks", async (req, res) => {
   } catch (err) {
     console.error("Error:", err);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+r.post("/search-tasks", express.json(), async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(400).json("Token not found");
+  }
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
+    return res.status(401).json("Failed to authorize user");
+  }
+
+  const input = req.body;
+  if (input) {
+    try {
+      if (
+        input.task_name === "" ||
+        input.label_id === null ||
+        input.priority_id === null
+      ) {
+        return res.status(400).json("Invalid input");
+      }
+      const searchResult = await searchTasks(input, user_id);
+      if (searchResult) {
+        res.status(200).json(searchResult);
+      } else {
+        res.status(500).json("Failed to search");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      res.status(500).send("Internal Server Error");
+    }
+  } else {
+    return res.status(400).json("Bad request");
+  }
+});
+
+r.get("/admin/task/:id", async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(400).json("Token not found");
+  }
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
+    return res.status(401).json("Failed to authorize user");
+  }
+
+  const adminVerifyResult = await verifyAdmin(user_id);
+  if (adminVerifyResult !== "admin") {
+    return res.status(403).json("No permission");
+  }
+
+  const task_id = req.params.id;
+  if (task_id) {
+    try {
+      const task = await getTaskDetails(task_id);
+      if (!task) {
+        return res.status(404).json("Task not found");
+      }
+      const user = await getUserDetails(task.user_id);
+      if (!user) {
+        return res.status(404).json("User not found");
+      }
+
+      if (task && user) {
+        return res.status(200).json({
+          user: user,
+          task: task,
+        });
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      res.status(500).send("Internal Server Error");
+    }
+  } else {
+    return res.status(400).json("Bad request");
   }
 });
 

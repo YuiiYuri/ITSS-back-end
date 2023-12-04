@@ -34,10 +34,13 @@ async function getUserNameAndImage(mail) {
   });
 }
 
-async function verifyAdmin(userId) {
-  const query = "SELECT role FROM users WHERE user_id = ?;";
+async function verifyAdmin(user_id) {
+  const query = ` SELECT role 
+                  FROM users 
+                  WHERE user_id = ?;`;
+
   return new Promise((resolve, reject) => {
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [user_id], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -51,8 +54,33 @@ async function verifyAdmin(userId) {
   });
 }
 
+async function getUserDetails(user_id) {
+  const query = ` SELECT 
+                    user_id,
+                    user_name,
+                    mail,
+                    image
+                  FROM users
+                  WHERE user_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [user_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        if (results.length === 0) {
+          resolve(null);
+        } else {
+          resolve(results[0]);
+        }
+      }
+    });
+  });
+}
+
 module.exports = {
   getUserId,
   getUserNameAndImage,
   verifyAdmin,
+  getUserDetails,
 };

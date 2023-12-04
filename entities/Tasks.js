@@ -2,7 +2,7 @@ const db = require("../services/SetUpMySQL");
 
 const moment = require("moment-timezone");
 
-async function getTodayTasks(userId) {
+async function getTodayTasks(user_id) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
   const query = ` SELECT *
                   FROM tasks 
@@ -11,7 +11,7 @@ async function getTodayTasks(userId) {
                     user_id = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [user_id], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -21,7 +21,7 @@ async function getTodayTasks(userId) {
   });
 }
 
-async function getUpcomingTasks(userId) {
+async function getUpcomingTasks(user_id) {
   const currentDateInUTC = moment().utc().format("YYYY-MM-DD");
   const query = ` SELECT * 
                   FROM tasks 
@@ -30,7 +30,7 @@ async function getUpcomingTasks(userId) {
                     user_id = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [user_id], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -40,11 +40,11 @@ async function getUpcomingTasks(userId) {
   });
 }
 
-async function getAllTasks(userId) {
+async function getAllTasks(user_id) {
   const query = `SELECT * FROM tasks WHERE user_id = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [user_id], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -113,7 +113,7 @@ async function editTask(task, user_id) {
                     label_id = ?
                   WHERE 
                     user_id = ? AND
-                    task_id = ?`;
+                    task_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(
@@ -142,7 +142,7 @@ async function deleteTask(task_id, user_id) {
   const query = ` DELETE FROM tasks 
                   WHERE 
                     task_id = ? AND 
-                    user_id = ?`;
+                    user_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [task_id, user_id], (err, results) => {
@@ -150,6 +150,52 @@ async function deleteTask(task_id, user_id) {
         reject(err);
       } else {
         resolve(results.affectedRows > 0);
+      }
+    });
+  });
+}
+
+async function searchTasks(input, user_id) {
+  const query = ` SELECT * 
+                  FROM tasks
+                  WHERE 
+                    task_name = ? OR task_name LIKE ? AND
+                    label_id = ? AND 
+                    priority_id = ? AND
+                    user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      query,
+      [
+        input.task_name,
+        `%${input.task_name}%`,
+        input.label_id,
+        input.priority_id,
+        user_id,
+      ],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+    );
+  });
+}
+
+async function getTaskDetails(task_id) {
+  const query = ` SELECT * 
+                  FROM tasks
+                  WHERE task_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [task_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
       }
     });
   });
@@ -163,4 +209,6 @@ module.exports = {
   createTask,
   deleteTask,
   editTask,
+  searchTasks,
+  getTaskDetails,
 };
