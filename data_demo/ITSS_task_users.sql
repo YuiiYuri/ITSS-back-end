@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `priority`
+-- Table structure for table `task_users`
 --
 
-DROP TABLE IF EXISTS `priority`;
+DROP TABLE IF EXISTS `task_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `priority` (
-  `priority_id` int NOT NULL AUTO_INCREMENT,
-  `priority_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `color` varchar(255) NOT NULL,
-  PRIMARY KEY (`priority_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `task_users` (
+  `task_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  UNIQUE KEY `unique_task_user_combination` (`task_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `task_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `task_users_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `priority`
+-- Dumping data for table `task_users`
 --
 
-LOCK TABLES `priority` WRITE;
-/*!40000 ALTER TABLE `priority` DISABLE KEYS */;
-INSERT INTO `priority` VALUES (1,'urgent','to be done immediately','red');
-/*!40000 ALTER TABLE `priority` ENABLE KEYS */;
+LOCK TABLES `task_users` WRITE;
+/*!40000 ALTER TABLE `task_users` DISABLE KEYS */;
+INSERT INTO `task_users` VALUES (8,1),(8,2);
+/*!40000 ALTER TABLE `task_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
