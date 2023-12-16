@@ -24,11 +24,10 @@ async function createLabel(label, user_id) {
 
 async function getLabels(user_id) {
   const query = `   SELECT *    
-                    FROM label
-                    WHERE user_id = ?;`;
+                    FROM label;`;
 
   return new Promise((resolve, reject) => {
-    db.query(query, [user_id], (err, results) => {
+    db.query(query, [], (err, results) => {
       if (err) {
         reject(err);
       } else {

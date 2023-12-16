@@ -18,7 +18,7 @@ function getUserId(user_name) {
 }
 
 async function getUserNameAndImage(mail) {
-  const query = "SELECT user_name, image FROM users WHERE mail = ?;";
+  const query = "SELECT user_name, image, role FROM users WHERE mail = ?;";
   return new Promise((resolve, reject) => {
     db.query(query, [mail], (err, results) => {
       if (err) {
