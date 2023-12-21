@@ -25,7 +25,11 @@ r.post("/sign-in", express.json(), async (req, res) => {
             expiresIn: "24h",
           }
         );
-        return res.status(200).json({ jwt: token });
+        return res.status(200).json({
+          jwt: token,
+          role: user_data.role,
+          username: user_data.user_name,
+        });
       } else {
         return res
           .status(400)
