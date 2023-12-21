@@ -17,9 +17,9 @@ async function createLabel(label) {
   });
 }
 
-async function getLabels(user_id) {
-  const query = `   SELECT *    
-                    FROM label;`;
+async function getLabels() {
+  const query = ` SELECT *    
+                  FROM label;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [], (err, results) => {
@@ -32,7 +32,7 @@ async function getLabels(user_id) {
   });
 }
 
-async function editLabel(label, user_id) {
+async function editLabel(label) {
   const query = ` UPDATE label
                   SET 
                     label_name = ?,
@@ -55,7 +55,7 @@ async function editLabel(label, user_id) {
   });
 }
 
-async function deleteLabel(label_id, user_id) {
+async function deleteLabel(label_id) {
   const query = ` DELETE FROM label
                   WHERE 
                     label_id = ?;`;

@@ -23,8 +23,8 @@ r.put("/task", express.json(), async (req, res) => {
         task.task_name === "" ||
         task.description === "" ||
         task.due_date === "" ||
-        task.priority_id === "" ||
-        task.label_id === ""
+        task.priority_id === null ||
+        task.label_id === null
       ) {
         return res.status(400).json("Invalid input");
       }
@@ -32,11 +32,11 @@ r.put("/task", express.json(), async (req, res) => {
       if (createTaskResult) {
         res.status(200).json("Created task successfully");
       } else {
-        res.status(500).json("Failed to create task");
+        return res.status(500).json("Failed to create task");
       }
     } catch (err) {
       console.error("Error:", err);
-      res.status(500).json("Internal Server Error");
+      return res.status(500).json("Internal Server Error");
     }
   } else {
     return res.status(400).json("Bad request");

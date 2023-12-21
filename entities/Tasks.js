@@ -155,7 +155,7 @@ async function deleteTask(task_id, user_id) {
   });
 }
 
-async function searchTasks(input, user_id) {
+async function searchTask(input, user_id) {
   const query = ` SELECT * 
                   FROM tasks
                   WHERE 
@@ -203,12 +203,10 @@ async function getTaskDetails(task_id) {
 
 async function updateStatus(task_id, status, user_id) {
   const query = ` UPDATE tasks
-                  JOIN task_users
                   SET status = ?
                   WHERE 
-                    tasks.task_id = ? AND
-                    tasks.task_id = task_users.task_id AND
-                    task_users.user_id = ?;`;
+                    task_id = ? AND
+                    user_id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [status, task_id, user_id], (err, results) => {
@@ -216,6 +214,42 @@ async function updateStatus(task_id, status, user_id) {
         reject(err);
       } else {
         resolve(results.changedRows > 0);
+      }
+    });
+  });
+}
+
+async function getTasksByFilterId(filter_id, user_id) {
+  const query = ` SELECT * 
+                  FROM tasks
+                  WHERE 
+                    filter_id = ? AND
+                    user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [filter_id, user_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+async function getTasksByLabelId(label_id, user_id) {
+  const query = ` SELECT * 
+                  FROM tasks
+                  WHERE 
+                    label_id = ? AND
+                    user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [label_id, user_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
       }
     });
   });
@@ -229,7 +263,9 @@ module.exports = {
   createTask,
   deleteTask,
   editTask,
-  searchTasks,
+  searchTask,
   getTaskDetails,
   updateStatus,
+  getTasksByFilterId,
+  getTasksByLabelId,
 };
