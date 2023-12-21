@@ -16,15 +16,10 @@ CREATE TABLE `tasks` (
   `description` VARCHAR(255) NOT NULL,
   `due_date` TIMESTAMP NOT NULL,
   `priority_id` INT NOT NULL,
-  `label_id` INT NOT NULL,
+  `label_id` INT,
   `status` BOOLEAN NOT NULL,
+  `filer_id` INT,
   `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
-);
-
-CREATE TABLE `task_users` (
-  `task_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  UNIQUE KEY unique_task_user_combination (`task_id`, `user_id`)
 );
 
 CREATE TABLE `priority` (
