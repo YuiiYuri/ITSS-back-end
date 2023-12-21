@@ -30,13 +30,13 @@ r.put("/task", express.json(), async (req, res) => {
       }
       const createTaskResult = createTask(task, user_id);
       if (createTaskResult) {
-        res.status(200).json("Created task successfully");
+        return res.status(200).json("Created task successfully");
       } else {
-        res.status(500).json("Failed to create task");
+        return res.status(500).json("Failed to create task");
       }
     } catch (err) {
       console.error("Error:", err);
-      res.status(500).json("Internal Server Error");
+      return res.status(500).json("Internal Server Error");
     }
   } else {
     return res.status(400).json("Bad request");

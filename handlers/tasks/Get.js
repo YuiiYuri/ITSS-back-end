@@ -3,8 +3,10 @@ const {
   getUpcomingTasks,
   getAllTasks,
   getAllTasksAdmin,
-  searchTasks,
+  searchTask,
   getTaskDetails,
+  getTasksByFilterId,
+  getTasksByLabelId,
 } = require("../../entities/Tasks");
 const { verifyAdmin, getUserDetails } = require("../../entities/Users");
 const { tokenVerification } = require("../../middlewares/JWT");
@@ -130,7 +132,7 @@ r.post("/search-tasks", express.json(), async (req, res) => {
       ) {
         return res.status(400).json("Invalid input");
       }
-      const searchResult = await searchTasks(input, user_id);
+      const searchResult = await searchTask(input, user_id);
       if (searchResult) {
         res.status(200).json(searchResult);
       } else {
@@ -184,6 +186,49 @@ r.get("/admin/task/:id", async (req, res) => {
     }
   } else {
     return res.status(400).json("Bad request");
+  }
+});
+
+r.get("/user/tasks", async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(400).json("Token not found");
+  }
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
+    return res.status(401).json("Failed to authorize user");
+  }
+
+  const filter_id = req.query.filter_id;
+  const label_id = req.query.label_id;
+
+  if (filter_id && label_id) {
+    return res
+      .status(400)
+      .json("Bad request. Provide either filter_id or label_id, not both.");
+  }
+
+  try {
+    let tasks;
+
+    if (filter_id) {
+      tasks = await getTasksByFilterId(filter_id, user_id);
+    } else if (label_id) {
+      tasks = await getTasksByLabelId(label_id, user_id);
+    } else {
+      return res
+        .status(400)
+        .json("Bad request");
+    }
+
+    if (tasks && tasks.length > 0) {
+      return res.status(200).json(tasks);
+    } else {
+      return res.status(204).json("No tasks found");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json("Internal Server Error");
   }
 });
 

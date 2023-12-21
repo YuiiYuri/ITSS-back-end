@@ -15,10 +15,12 @@ CREATE TABLE `tasks` (
   `task_name` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `due_date` TIMESTAMP NOT NULL,
+  `user_id` INT NOT NULL,
   `priority_id` INT NOT NULL,
   `label_id` INT,
   `status` BOOLEAN NOT NULL,
   `filer_id` INT,
+  `is_finished` TINYINT DEFAULT 0
   `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
 );
 
@@ -69,3 +71,5 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`
 ALTER TABLE `comments` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `tasks` ADD FOREIGN KEY (`filter_id`) REFERENCES `filter`(`filter_id`);
