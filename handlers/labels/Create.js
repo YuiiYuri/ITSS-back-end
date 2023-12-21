@@ -9,7 +9,7 @@ const r = Router();
 r.put("/label", express.json(), async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(400).json("Unauthorized");
+    return res.status(400).json("Unauthorized dd");
   }
   const user_id = await tokenVerification(token, res);
   if (!user_id) {
@@ -18,6 +18,7 @@ r.put("/label", express.json(), async (req, res) => {
 
   const label = req.body;
   if (label) {
+    console.log(label);
     try {
       if (label.label_name === "" || label.color === "") {
         return res.status(400).json("Invalid input");
