@@ -201,6 +201,26 @@ async function getTaskDetails(task_id) {
   });
 }
 
+async function updateStatus(task_id, status, user_id) {
+  const query = ` UPDATE tasks
+                  JOIN task_users
+                  SET status = ?
+                  WHERE 
+                    tasks.task_id = ? AND
+                    tasks.task_id = task_users.task_id AND
+                    task_users.user_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [status, task_id, user_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results.changedRows > 0);
+      }
+    });
+  });
+}
+
 module.exports = {
   getTodayTasks,
   getUpcomingTasks,
@@ -211,4 +231,5 @@ module.exports = {
   editTask,
   searchTasks,
   getTaskDetails,
+  updateStatus,
 };

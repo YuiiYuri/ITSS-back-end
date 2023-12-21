@@ -16,12 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tasks` (
+  `task_id` int NOT NULL AUTO_INCREMENT,
+  `task_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `due_date` timestamp NOT NULL,
+  `priority_id` int NOT NULL,
+  `label_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT (now()),
+  PRIMARY KEY (`task_id`),
+  KEY `priority_id` (`priority_id`),
+  KEY `label_id` (`label_id`),
+  CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`priority_id`) REFERENCES `priority` (`priority_id`),
+  CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `tasks`
 --
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (3,'abc','xyz','2023-11-19 17:00:00',1,1,1,'2023-11-18 05:12:47'),(4,'first task','test','2023-11-29 17:00:00',1,1,1,'2023-11-19 10:33:51'),(5,'first task','test','2023-11-29 17:00:00',1,1,1,'2023-11-19 10:34:01'),(6,'second task','','2023-11-29 17:00:00',1,1,1,'2023-11-19 10:35:53'),(7,'today task','','2023-11-18 17:00:00',1,1,1,'2023-11-19 10:47:33');
+INSERT INTO `tasks` VALUES (8,'update 123','first update','2023-11-26 10:00:00',1,1,1,'2023-11-19 04:38:03');
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-19 18:18:25
+-- Dump completed on 2023-12-07 15:56:47

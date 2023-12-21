@@ -6,7 +6,7 @@ CREATE TABLE `users` (
   `image` VARCHAR(255),
   `role` VARCHAR(255) NOT NULL,
   `auth_method` VARCHAR(255) NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
 );
 insert into users(user_name, password, mail, role, auth_method) values('admin', '12345678', 'admin@gmail.com', 'admin', '');
 
@@ -17,15 +17,21 @@ CREATE TABLE `tasks` (
   `due_date` TIMESTAMP NOT NULL,
   `priority_id` INT NOT NULL,
   `label_id` INT NOT NULL,
+  `status` BOOLEAN NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
+);
+
+CREATE TABLE `task_users` (
+  `task_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+  UNIQUE KEY unique_task_user_combination (`task_id`, `user_id`)
 );
 
 CREATE TABLE `priority` (
   `priority_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `priority_name` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
-  `color` VARCHAR(255)  NOT NULL
+  `color` VARCHAR(255) NOT NULL
 );
 insert into priority(priority_name, description, color) values ('1', 'very important very hury', 'red');
 insert into priority(priority_name, description, color) values ('2', 'not important very hury', 'yellow');
@@ -56,7 +62,7 @@ CREATE TABLE `comments` (
   `text` VARCHAR(255) NOT NULL,
   `task_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
 );
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`priority_id`) REFERENCES `priority` (`priority_id`);
