@@ -23,14 +23,14 @@ r.put("/task", express.json(), async (req, res) => {
         task.task_name === "" ||
         task.description === "" ||
         task.due_date === "" ||
-        task.priority_id === "" ||
-        task.label_id === ""
+        task.priority_id === null ||
+        task.label_id === null
       ) {
         return res.status(400).json("Invalid input");
       }
       const createTaskResult = createTask(task, user_id);
       if (createTaskResult) {
-        return res.status(200).json("Created task successfully");
+        res.status(200).json("Created task successfully");
       } else {
         return res.status(500).json("Failed to create task");
       }

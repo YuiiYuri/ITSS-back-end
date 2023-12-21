@@ -189,7 +189,7 @@ r.get("/admin/task/:id", async (req, res) => {
   }
 });
 
-r.get("/user/tasks", async (req, res) => {
+r.get("/tasks", async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(400).json("Token not found");

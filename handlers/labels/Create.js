@@ -18,7 +18,6 @@ r.put("/label", express.json(), async (req, res) => {
 
   const label = req.body;
   if (label) {
-    console.log(label);
     try {
       if (label.label_name === "" || label.color === "") {
         return res.status(400).json("Invalid input");

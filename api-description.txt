@@ -245,8 +245,8 @@ Response:
     }   
 
 10. Get tasks by filter_id (USER)
-Path: /user/tasks?filter_id
-Method: POST
+Path: /tasks?filter_id=...
+Method: GET
 Request:
     Headers:
         {
@@ -271,8 +271,8 @@ Response:
     ] 
 
 11. Get tasks by label_id (USER)
-Path: /user/tasks?label_id
-Method: POST
+Path: /tasks?label_id=...
+Method: GET
 Request:
     Headers:
         {
@@ -295,6 +295,24 @@ Response:
            "created_at": "2023-11-19T11:38:03.000Z"
        }
     ]        
+
+12. Update task's status (USER)
+Path: /task/status
+Method: POST
+Request:
+    Headers:
+        {
+            authorization: token (token nhan khi dang nhap)
+        }
+    Body:
+        {
+            task_id:    int,
+            status:     int     (0 la` chua xong, 1 la xong)
+        }
+Response:
+    {
+        "Updated status successfully"
+    }   
 
 
 ******Filters****** 
