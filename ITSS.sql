@@ -8,6 +8,7 @@ CREATE TABLE `users` (
   `auth_method` VARCHAR(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+insert into users(user_name, password, mail, role, auth_method) values('admin', '12345678', 'admin@gmail.com', 'admin', '');
 
 CREATE TABLE `tasks` (
   `task_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -26,20 +27,28 @@ CREATE TABLE `priority` (
   `description` VARCHAR(255) NOT NULL,
   `color` VARCHAR(255)  NOT NULL
 );
+insert into priority(priority_name, description, color) values ('1', 'very important very hury', 'red');
+insert into priority(priority_name, description, color) values ('2', 'not important very hury', 'yellow');
+insert into priority(priority_name, description, color) values ('3', 'important not hury', 'blue');
+
 
 CREATE TABLE `label` (
   `label_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `label_name` VARCHAR(255) NOT NULL,
   `color` VARCHAR(255) NOT NULL
-  `user_id` INT NOT NULL
 );
 
 CREATE TABLE `filter` (
   `filter_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `filter_name` VARCHAR(255) NOT NULL,
   `color` VARCHAR(255) NOT NULL
-  `user_id` INT NOT NULL
 );
+insert into filter(filter_name,color) values ("Learn", "#34C8FA");
+insert into filter(filter_name,color) values ("work", "#344CFA");
+insert into filter(filter_name,color) values ("relax", "#FA89A3");
+insert into filter(filter_name,color) values ("online", "#FA89A3");
+insert into filter(filter_name,color) values ("offine", "#FA89A3");
+
 
 CREATE TABLE `comments` (
   `comment_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -59,7 +68,3 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`
 ALTER TABLE `comments` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `label` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `filter` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
