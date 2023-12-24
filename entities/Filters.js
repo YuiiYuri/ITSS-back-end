@@ -17,12 +17,27 @@ async function createFilter(filter, user_id) {
   });
 }
 
-async function getFilters(user_id) {
+async function getFilters() {
   const query = ` SELECT *    
                   FROM filter;`;
 
   return new Promise((resolve, reject) => {
     db.query(query, [], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+async function getFilter(filter_id) {
+  const query = ` SELECT *    
+                  FROM filter WHERE filter_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [filter_id], (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -74,6 +89,7 @@ async function deleteFilter(filter_id, user_id) {
 module.exports = {
   createFilter,
   getFilters,
+  getFilter,
   editFilter,
   deleteFilter,
 };

@@ -1,5 +1,21 @@
 const db = require("../services/SetUpMySQL");
 
+async function getUsers() {
+  const query = ` SELECT user_id, user_name
+                  FROM users 
+                  WHERE role="user";`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
 function getUserId(user_name) {
   const query = "SELECT user_id FROM users WHERE user_name = ?;";
   return new Promise((resolve, reject) => {
@@ -80,6 +96,7 @@ async function getUserDetails(user_id) {
 
 module.exports = {
   getUserId,
+  getUsers,
   getUserNameAndImage,
   verifyAdmin,
   getUserDetails,

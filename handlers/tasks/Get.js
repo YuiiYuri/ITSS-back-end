@@ -8,12 +8,36 @@ const {
   getTasksByFilterId,
   getTasksByLabelId,
 } = require("../../entities/Tasks");
+const { getUsers } = require("../../entities/Users");
 const { verifyAdmin, getUserDetails } = require("../../entities/Users");
 const { tokenVerification } = require("../../middlewares/JWT");
 
 const Router = require("express");
 const express = require("express");
 const r = Router();
+
+r.get("/users", async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(400).json("Token not found");
+  }
+  const user_id = await tokenVerification(token, res);
+  if (!user_id) {
+    return res.status(401).json("Failed to authorize user");
+  }
+
+  try {
+    const users = await getUsers();
+    if (users) {
+      res.status(200).json(users);
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 r.get("/today-tasks", async (req, res) => {
   const token = req.headers.authorization;
@@ -216,9 +240,7 @@ r.get("/tasks", async (req, res) => {
     } else if (label_id) {
       tasks = await getTasksByLabelId(label_id, user_id);
     } else {
-      return res
-        .status(400)
-        .json("Bad request");
+      return res.status(400).json("Bad request");
     }
 
     if (tasks && tasks.length > 0) {

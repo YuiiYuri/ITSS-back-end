@@ -10,6 +10,7 @@ CREATE TABLE `users` (
 );
 insert into users(user_name, password, mail, role, auth_method) values('admin', '12345678', 'admin@gmail.com', 'admin', '');
 
+
 CREATE TABLE `tasks` (
   `task_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `task_name` VARCHAR(255) NOT NULL,
@@ -18,9 +19,8 @@ CREATE TABLE `tasks` (
   `user_id` INT NOT NULL,
   `priority_id` INT NOT NULL,
   `label_id` INT,
-  `status` BOOLEAN NOT NULL,
-  `filer_id` INT,
-  `is_finished` TINYINT DEFAULT 0
+  `filter_id` INT,
+  `is_finished` TINYINT DEFAULT 0,
   `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)
 );
 
@@ -33,6 +33,7 @@ CREATE TABLE `priority` (
 insert into priority(priority_name, description, color) values ('1', 'very important very hury', 'red');
 insert into priority(priority_name, description, color) values ('2', 'not important very hury', 'yellow');
 insert into priority(priority_name, description, color) values ('3', 'important not hury', 'blue');
+insert into priority(priority_name, description, color) values ('4', '', 'black');
 
 
 CREATE TABLE `label` (
@@ -46,11 +47,11 @@ CREATE TABLE `filter` (
   `filter_name` VARCHAR(255) NOT NULL,
   `color` VARCHAR(255) NOT NULL
 );
-insert into filter(filter_name,color) values ("Learn", "#34C8FA");
-insert into filter(filter_name,color) values ("work", "#344CFA");
-insert into filter(filter_name,color) values ("relax", "#FA89A3");
-insert into filter(filter_name,color) values ("online", "#FA89A3");
-insert into filter(filter_name,color) values ("offine", "#FA89A3");
+insert into filter(filter_name,color) values ("Learn", "red");
+insert into filter(filter_name,color) values ("work", "yellow");
+insert into filter(filter_name,color) values ("relax", "orange");
+insert into filter(filter_name,color) values ("online", "green");
+insert into filter(filter_name,color) values ("offine", "teal");
 
 
 CREATE TABLE `comments` (
@@ -64,7 +65,7 @@ CREATE TABLE `comments` (
 
 ALTER TABLE `tasks` ADD FOREIGN KEY (`priority_id`) REFERENCES `priority` (`priority_id`);
 
-ALTER TABLE `tasks` ADD FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`);
+ALTER TABLE `tasks` ADD FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`) ON DELETE SET NULL; 
 
 ALTER TABLE `comments` ADD FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`);
 
