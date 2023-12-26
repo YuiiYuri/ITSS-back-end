@@ -6,8 +6,9 @@ const express = require("express");
 
 const r = Router();
 
-r.delete("/label", express.json(), async (req, res) => {
+r.delete("/label/:label_id", express.json(), async (req, res) => {
   const token = req.headers.authorization;
+  console.log("ok");
   if (!token) {
     return res.status(400).json("Unauthorized");
   }
@@ -16,7 +17,7 @@ r.delete("/label", express.json(), async (req, res) => {
     return res.status(401).json("Failed to authorize user");
   }
 
-  const { label_id } = req.body;
+  const label_id = Number(req.params.label_id);
   if (label_id) {
     try {
       const deleteLabelResult = await deleteLabel(label_id, user_id);

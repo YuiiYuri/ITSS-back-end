@@ -77,9 +77,10 @@ async function createTask(task, user_id) {
                     description, 
                     due_date, 
                     priority_id, 
-                    label_id, 
+                    label_id,
+                    filter_id, 
                     user_id) 
-                  VALUES (?, ?, ?, ?, ?, ?);`;
+                  VALUES (?, ?, ?, ?, ?, ?, ?);`;
 
   return new Promise((resolve, reject) => {
     db.query(
@@ -90,6 +91,7 @@ async function createTask(task, user_id) {
         task.due_date,
         task.priority_id,
         task.label_id,
+        task.filter_id,
         user_id,
       ],
       (err, results) => {
@@ -203,7 +205,7 @@ async function getTaskDetails(task_id) {
 
 async function updateStatus(task_id, status, user_id) {
   const query = ` UPDATE tasks
-                  SET status = ?
+                  SET is_finished = ?
                   WHERE 
                     task_id = ? AND
                     user_id = ?;`;

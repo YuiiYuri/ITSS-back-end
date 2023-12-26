@@ -6,7 +6,7 @@ const express = require("express");
 
 const r = Router();
 
-r.delete("/task", express.json(), async (req, res) => {
+r.delete("/task/:task_id", express.json(), async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(400).json("Unauthorized");
@@ -16,10 +16,11 @@ r.delete("/task", express.json(), async (req, res) => {
     return res.status(401).json("Failed to authorize user");
   }
 
-  const { task_id } = req.body;
+  const task_id = Number(req.params.task_id);
   if (task_id) {
     try {
       const deleteTaskResult = await deleteTask(task_id, user_id);
+      console.log(deleteTaskResult);
       if (deleteTaskResult) {
         res.status(200).json("Deleted task successfully");
       } else {

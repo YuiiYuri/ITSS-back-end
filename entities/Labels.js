@@ -32,6 +32,21 @@ async function getLabels() {
   });
 }
 
+async function getLabel(label_id) {
+  const query = ` SELECT *    
+                  FROM label WHERE label_id = ?;`;
+
+  return new Promise((resolve, reject) => {
+    db.query(query, [label_id], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
 async function editLabel(label) {
   const query = ` UPDATE label
                   SET 
@@ -89,6 +104,7 @@ async function getAllLabelsAdmin() {
 module.exports = {
   createLabel,
   getLabels,
+  getLabel,
   editLabel,
   deleteLabel,
   getAllLabelsAdmin,

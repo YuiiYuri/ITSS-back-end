@@ -2,7 +2,32 @@
 
 ## Hướng dẫn set up và chạy server:
 
-### B1: Clone repo về máy
+### Chuẩn bị:
+
+Cài sẵn mysql, tạo 1 database mới tên là itss.
+Cài nodejs.
+Clone code về.
+
+### Thiết lập kết nối database cho backend:
+
+Vào file SetUpMySQL.js trong thư mục services, Có đoạn code:
+const db = mysql.createConnection({
+host: "127.0.0.1",
+user: "root",
+password: "root",
+database: "itss",
+});
+user, password của database mà bạn tạo.
+
+Xây dựng cấu trúc bảng bằng cách chạy hết các câu lệnh trong file ITSS.sql.
+Sau khi chạy xong, cấu trúc bảng được tạo ra, một số dữ liệu mẫu cũng được thêm vào.
+1 account admin được thêm vào cơ sở dữ liệu:
+email: admin@gmail.com
+pass: 12345678
+
+### Chạy backend:
+
+Chạy bằng lệnh npm start.
 
 ### B2: Chạy command `node -v` để kiểm tra phiên bản của nodejs
 
@@ -11,34 +36,8 @@
 - Nếu gặp vấn đề với node thì cài đặt NVM (https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/)
   - Sau đó cài đặt phiên bản node 16.15.1 với command `nvm install 16.15.1`
 
-### B3: Chạy server với command `npm start`
+### B3: Chạy server với command `npm start` (nếu lỗi, chạy npm i trước để tải node-modules).
 
 <br>
 <br>
 <br>
-
-## Hướng dẫn thao tác với repo, code, push, tạo pull request:
-
-### B1: Trước mỗi lần bắt đầu code, chạy command `git pull origin main` để pull code mới được merge vào branch main (code mới nhất)
-
-### B2: Dùng command `git branch` để kiểm tra xem đang ở branch nào
-
-- Nếu đang không ở branch của mình thì checkout qua bằng command `git checkout` + branchname
-- Nếu chưa có branch thì tạo branch mới bằng command `git branch` + branchname
-  - Sau đó dùng command `git checkout` + branchname để chuyển qua branch mới tạo
-
-### B3: Sau khi code xong, commit và push như bình thường lên branch của mình
-
-### B4: Lên repo trên web, chọn branch của mình
-
-<p align="center">
-  <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/c4da09f5-b979-4a46-89d7-f2bb8688e33e)" width="600" title="Select branch">
-</p>
-
-### B5: Chọn commit và tạo pull request
-
-<p align="center">
-  <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/c0fe6bf9-20ad-4aff-9c6f-f6d65be6ed1d)" width="600" title="Select commit">
-  <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/a572d533-8754-41c0-8726-eec93bb95a22)" width="600" title="Creat pull request">
-  <img src="https://github.com/quyld17/ITSS-back-end/assets/75574584/50f06422-2862-40f8-8cd4-dcc7a105b55c)" width="600" title="Creat pull request">
-</p>
