@@ -10,7 +10,6 @@ CREATE TABLE `users` (
 );
 insert into users(user_name, password, mail, role, auth_method) values('admin', '12345678', 'admin@gmail.com', 'admin', '');
 
-
 CREATE TABLE `tasks` (
   `task_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `task_name` VARCHAR(255) NOT NULL,
